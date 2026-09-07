@@ -1,12 +1,18 @@
 
-body { background:#f4f6f9; }
+:root {
+ --store-ink:#17324d;
+ --store-orange:#e07a3f;
+ --store-green:#6f9f8a;
+ --store-cream:#f6f0e6;
+}
+body { background:var(--store-cream); }
 #sidebar {
  width:250px; min-height:100vh;
- background:linear-gradient(180deg,#2c3e50,#34495e);
+ background:var(--store-ink);
  color:white;
 }
-#sidebar .nav-link { color:#ecf0f1; padding:12px; }
-#sidebar .nav-link:hover { background:#3498db; }
+#sidebar .nav-link { color:var(--store-cream); padding:12px; }
+#sidebar .nav-link:hover { color:#fff; background:var(--store-orange); }
 .sidebar-brand { padding:20px; font-size:1.4rem; text-align:center; }
 .content { padding:30px; width:100%; }
 .card { box-shadow:0 2px 8px rgba(0,0,0,.1); }

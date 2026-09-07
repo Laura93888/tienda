@@ -1,5 +1,5 @@
 <?php
-require_once "cabecera.php";
+require_once "inicio.php";
 
 if(isset($_SESSION["id_user"])){
   header("Location: index.php");
@@ -34,6 +34,7 @@ if($banderaerror==False&&isset($_POST["enviar"])){
     $bbdd->RegistrarUsuario($usuario,$contraseña);
     header("Location: login.php"); //Me voy al inicio de sesion cuadno me registro
 }
+require_once "cabecera.php";
 
 ?>
     <header class="account-hero">

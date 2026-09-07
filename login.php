@@ -1,8 +1,9 @@
 <?php
-require_once "cabecera.php";
+require_once "inicio.php";
 
 if(isset($_SESSION["id_user"])){
   header("Location: index.php");
+  exit;
 }//asi si ya tengo sesion iniciada me lleva al index
 
 
@@ -40,13 +41,13 @@ if(isset($_POST["usuario"])){ //Si existe usuario es que hemos pulsado el boton 
                     $bbdd->resetearIntentos($nombreusuario); //Reseteo los intentos ya que ha conseguido entrar y la proxima vez debe empezar intentos de 0
                     
                     header("Location: index.php"); //mando a la cabecera cuando inicie sesion
-
+                    exit;
 			    }else{
                     $contraerror="Contraseña incorrecta"; //Lanzo el error si la contraseña falla
                     $bbdd->incrementarIntentos($nombreusuario);
                 }
             }else{
-                echo "Usuario bloqueado";
+                $usuarioerror="Usuario bloqueado por demasiados intentos";
             }
 
         }else{ //Si el nombre de usuario no está en la base de datos lanza el aviso
@@ -55,7 +56,7 @@ if(isset($_POST["usuario"])){ //Si existe usuario es que hemos pulsado el boton 
     }
 }
     
-
+require_once "cabecera.php";
 
 ?>
     <header class="account-hero">

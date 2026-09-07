@@ -60,8 +60,6 @@ function anadiralcarritocookie(&$carrito,$idpro,$cant){
         foreach ($carrito as $pos => $produc){
             if($produc["id_producto"]==$idpro){
                 $estapro=True; //pasamos a true si lo encuentra
-            var_dump($carrito[$pos]["cantidad"]);
-var_dump($cant);
                 //sumo la cantidad que me ha llegado por post si lo encuentra
                 $carrito[$pos]["cantidad"]+=$cant;  
             }

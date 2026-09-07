@@ -4,7 +4,7 @@ session_start();
 //Tengo que utilizar las funciones las llamo
 require_once("../funciones.php");
 //inicio mi nueva bbdd para usar las funciones
-$bbdd= new db("localhost",3306,"Tienda1","root","");
+$bbdd= new db("127.0.0.1",3306,"Tienda1","tienda","tienda123");
 
 //si se ha iniciado sesión guardo la info de mi usuario
 if(isset($_SESSION["id_user"])){
@@ -99,7 +99,6 @@ if(isset($_POST["ventas"])){
 
 $descripcion="";
 $descripcionerror="";
-$descripcionestiloerror="";
 if(isset($_POST["descripcion"])){
     $descripcion=htmlentities($_POST["descripcion"]);
     if($descripcion==""){

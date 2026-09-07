@@ -3,7 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 02-12-2025 a las 13:55:45
+-- Tiempo de generación: 02-12-2025 a mariadb -u root -p
+as 13:55:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -58,6 +59,22 @@ CREATE TABLE `Productos` (
   `id_cat` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Usuarios`
+--
+
+CREATE TABLE `Usuarios` (
+  `id_user` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(50) NOT NULL,
+  `contrasea` varchar(255) NOT NULL,
+  `rol` tinyint(1) NOT NULL DEFAULT 0,
+  `intentos` tinyint unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_user`),
+  UNIQUE KEY `usuario` (`usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Índices para tablas volcadas
 --
@@ -74,6 +91,24 @@ ALTER TABLE `Categorias`
 ALTER TABLE `Productos`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `id_cat` (`id_cat`);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrito`
+--
+
+CREATE TABLE `carrito` (
+  `id_carrito` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(10) unsigned NOT NULL,
+  `id_producto` int(4) NOT NULL,
+  `cantidad` int(10) unsigned NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id_carrito`),
+  UNIQUE KEY `usuario_producto` (`id_usuario`,`id_producto`),
+  KEY `id_producto` (`id_producto`),
+  CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_user`) ON DELETE CASCADE,
+  CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `Productos` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- AUTO_INCREMENT de las tablas volcadas

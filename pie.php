@@ -17,8 +17,8 @@
                     </div>
                     <div class="site-footer__contact">
                         <h2>Hablemos</h2>
-                        <p>hola@tutienda.com</p>
-                        <p>Calle de ejemplo, 00<br>28000 Madrid</p>
+                        <p><a href="mailto:hola@tutienda.com">hola@tutienda.com</a></p>
+                        <p>Calle de las Lilas, 30<br>28500 Madrid</p>
                         <div class="site-footer__socials" aria-label="Redes sociales">
                             <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
                             <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>

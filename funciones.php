@@ -125,10 +125,10 @@ function obtenerproducto($id){
 //compruebo si el nombre de usuario ya existe(para el registro no repetir nombres)
 public function usuarioexiste($nombre){
 
-    $sentencia="SELECT COUNT(*) as cantidad FROM users WHERE nombre = :nombre";
+    $sentencia="SELECT COUNT(*) as cantidad FROM Usuarios WHERE usuario = :usuario";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
-        ":nombre" => $nombre
+        ":usuario" => $nombre
     ]);
 
     //se guarda la cantidad de veces que aparece ese nombre en la tabla(0 o 1)
@@ -143,13 +143,13 @@ public function usuarioexiste($nombre){
 
 //añadir usuario a la bbdd(desde registro)
 public function RegistrarUsuario($nombre,$contraseña){
-    $contracifrada=password_hash($contraseña, PASSWORD_DEFAULT); //con esto cifras la contraseña que me han pasado
+    $contracifrada=password_hash($contraseña, PASSWORD_DEFAULT);
 
-    $sentencia="INSERT INTO users (nombre,password,intentos) VALUES (:nombre, :contra, 0)"; //He hecho una columna de intentos
+    $sentencia="INSERT INTO Usuarios (usuario, contrasea) VALUES (:usuario, :hash)";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
-        ":nombre" => $nombre,
-        ":contra" => $contracifrada
+        ":usuario" => $nombre,
+        ":hash" => $contracifrada
     ]);
 
 }
@@ -157,10 +157,10 @@ public function RegistrarUsuario($nombre,$contraseña){
 //Obtener el id a partir del nombre de usuario, como no hay dos nombres de usuario iguales puedo hacer esto (para el login, iniciar sesion)
 public function ObtenerID($usuario){
 
-    $sentencia="SELECT id_user FROM users WHERE nombre = :nombre";
+    $sentencia="SELECT id_user FROM Usuarios WHERE usuario = :usuario";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
-        ":nombre" => $usuario
+        ":usuario" => $usuario
     ]);    
 
     $id = $ejecuccion->fetch(PDO::FETCH_ASSOC);
@@ -172,7 +172,7 @@ public function ObtenerID($usuario){
 //mostrar todos los usuarios de la bbdd y sus atributos (para el panel-usuarios  y panel-dashboard)
 public function mostrarusuarios(){
 
-    $sentencia="SELECT * FROM users";
+    $sentencia="SELECT * FROM Usuarios";
 	$ejecucion=$this->pdo->prepare($sentencia);
 	$ejecucion->execute();
 	$res=$ejecucion->fetchAll(PDO::FETCH_ASSOC); //Aqui esta guardada la contraseña de mi usuario
@@ -183,7 +183,7 @@ public function mostrarusuarios(){
 //funcion para mostrar un usuario y sus datos para usarlo y editarlo (en cabecera normal, y en panel dashboard y usuarios, editarus)
 public function mostrarus($idus){
 
-    $sentencia="SELECT * FROM users WHERE id_user=:idus";
+    $sentencia="SELECT * FROM Usuarios WHERE id_user=:idus";
 	$ejecucion=$this->pdo->prepare($sentencia);
 	$ejecucion->execute([
         ":idus"=>$idus
@@ -197,10 +197,10 @@ public function mostrarus($idus){
 //funcion para editar el usuario (panel-usuarios-editar)
 public function editarus($idus,$nombre,$rol){
 
-    $sentencia="UPDATE users SET nombre=:nombre, rol=:rol WHERE id_user=:idus";
+    $sentencia="UPDATE Usuarios SET usuario=:usuario, rol=:rol WHERE id_user=:idus";
 	$ejecucion=$this->pdo->prepare($sentencia);
 	$ejecucion->execute([
-        ":nombre"=>$nombre,
+        ":usuario"=>$nombre,
         ":rol"=>$rol,
         ":idus"=>$idus
     ]);
@@ -208,13 +208,13 @@ public function editarus($idus,$nombre,$rol){
 
 //comprobar si la contraseña es correcta(para hacer login)
 public function comprobarcontra($nombre,$pass){
-		$sentencia="SELECT password FROM users WHERE nombre=:nombre";
+        $sentencia="SELECT contrasea FROM Usuarios WHERE usuario=:usuario";
 		$ejecucion=$this->pdo->prepare($sentencia);
 		$ejecucion->execute([
-			":nombre" => $nombre
+            ":usuario" => $nombre
 		]);
 		$res=$ejecucion->fetch(PDO::FETCH_ASSOC); //Aqui esta guardada la contraseña de mi usuario
-		if(password_verify($pass,$res["password"])){ //hace al contrario descrifra la contraseña
+        if($res && password_verify($pass,$res["contrasea"])){ //hace al contrario descrifra la contraseña
 			return True;
 		}else{
 			return False;
@@ -225,10 +225,10 @@ public function comprobarcontra($nombre,$pass){
 
 public function Obtenerintentos($usuario){
 
-    $sentencia="SELECT intentos FROM users WHERE nombre = :nombre"; //sacamos la contraseña y el usuario con lo que nos han pasado del login
+    $sentencia="SELECT intentos FROM Usuarios WHERE usuario = :usuario"; //sacamos los intentos del usuario del login
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
-        ":nombre" => $usuario 
+        ":usuario" => $usuario
     ]);
 
     $fila = $ejecuccion->fetch(PDO::FETCH_ASSOC); //si no estuviera este usuario esta consulta da vacia por lo que daría falso
@@ -237,19 +237,19 @@ public function Obtenerintentos($usuario){
 }
 public function IncrementarIntentos($usuario){
 
-    $sentencia="UPDATE users SET intentos = intentos+1 WHERE nombre = :nombre";
+    $sentencia="UPDATE Usuarios SET intentos = intentos+1 WHERE usuario = :usuario";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
-        ":nombre" => $usuario
+        ":usuario" => $usuario
     ]);
 
 }
 public function ResetearIntentos($usuario){
 
-    $sentencia="UPDATE users SET intentos = 0 WHERE nombre = :nombre";
+    $sentencia="UPDATE Usuarios SET intentos = 0 WHERE usuario = :usuario";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
-        ":nombre" => $usuario
+        ":usuario" => $usuario
 ]);
 
 }
@@ -290,11 +290,11 @@ public function contarcarritos(){
 public function productoscarritousuarios(){
 
     //Uno el carrito con la tabla usuarios y la tabla productos, luego agrupo por id de usuario y nombre
-    $sentencia="SELECT u.nombre, c.id_usuario, COUNT(c.id_producto) AS total, SUM(c.cantidad*p.precio) AS precio
+    $sentencia="SELECT u.usuario AS nombre, c.id_usuario, COUNT(c.id_producto) AS total, SUM(c.cantidad*p.precio) AS precio
     FROM carrito c 
-    JOIN users u ON u.id_user=c.id_usuario 
+    JOIN Usuarios u ON u.id_user=c.id_usuario
     JOIN Productos p ON c.id_producto=p.id 
-    GROUP BY c.id_usuario,u.nombre"; //tengo que poner en el group by todo lo que quiera mostrar que no este en consulta count,sum...
+    GROUP BY c.id_usuario,u.usuario"; //tengo que poner en el group by todo lo que quiera mostrar que no este en consulta count,sum...
 
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute();
@@ -353,12 +353,13 @@ public function sumarcantidad($cant,$iduser,$idpro){
 }
 
 //Eliminar el producto del carrito (en cabecera para carrito)
-public function eliminarprocarrito($id_carrito){
+public function eliminarprocarrito($id_carrito, $iduser){
 
-    $sentencia="DELETE FROM carrito WHERE id_carrito = :id_carrito";
+    $sentencia="DELETE FROM carrito WHERE id_carrito = :id_carrito AND id_usuario = :iduser";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
         ":id_carrito" => $id_carrito,
+        ":iduser" => $iduser,
     ]);
 
 }

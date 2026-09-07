@@ -3,12 +3,18 @@
 
 if(!isset($_GET["id"])){  //Si no me ha llegado id de producto que mostrar redirijo al index
     header("Location:index.php");
+    exit;
 
 }else{
     
     include_once("cabecera.php");
-    $id=$_GET["id"];
+    $id=(int)$_GET["id"];
     $producto=$bbdd->obtenerproducto($id); //obtengo todos los datos del producto
+
+    if(!$producto){
+        header("Location:index.php");
+        exit;
+    }
 
     $listadorelacionados=$bbdd->obtenerproductos($producto["id_cat"]); //Obtengo los productos realizaciones de la categoria del producto en el que estoy (accediendo al idcat del producto)
 

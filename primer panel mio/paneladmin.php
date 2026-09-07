@@ -62,7 +62,6 @@ if(isset($_POST["stock"])){
 
 $descripcion="";
 $descripcionerror="";
-$descripcionestiloerror="";
 if(isset($_POST["descripcion"])){
     $descripcion=htmlentities($_POST["descripcion"]);
     if($descripcion==""){

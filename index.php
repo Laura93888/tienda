@@ -10,11 +10,6 @@ include_once("cabecera.php");
                     <p class="home-hero__eyebrow">Tu selección, sin complicaciones</p>
                     <h1>Todos tus favoritos,<br><em style="color: #e97959";>en un solo lugar.</em></h1>
                     <p class="home-hero__text">Encuentra tu prenda adecuada para cada momento y recíbela en pocos clics.</p>
-                    
-                </div>
-                <div class="home-hero__badge" aria-hidden="true">
-                    <span>01</span>
-                    <strong>Selección<br>semanal</strong>
                 </div>
             </div>
         </header>

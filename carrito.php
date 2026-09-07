@@ -6,9 +6,10 @@ include_once("cabecera.php");
 <main class="cart-page">
     <header class="cart-page__hero">
         <div class="container px-4 px-lg-5">
-            <p class="category-hero__eyebrow">Tu selección</p>
-            <h1>Todo lo que<br><em>te gusta.</em></h1>
-            <p>Revisa tus favoritos antes de seguir disfrutando de Nuvia.</p>
+            <p class="cart-page__eyebrow"><i class="bi bi-bag" aria-hidden="true"></i> Carrito de compra</p>
+            <h1>Tu carrito<br><em>está aquí.</em></h1>
+            <p>Revisa tu selección antes de finalizar el pedido.</p>
+            <span class="cart-page__status"><strong><?=$cantcarrito?></strong> <?=($cantcarrito == 1) ? "producto" : "productos"?> en tu carrito</span>
         </div>
     </header>
 
@@ -80,7 +81,7 @@ include_once("cabecera.php");
                         <div class="cart-summary__total"><?=number_format($total, 2, ",", ".")?>€</div>
                         <p>Los gastos de envío se calculan al finalizar la compra.</p>
                         <form action="<?=$_SERVER["PHP_SELF"]?>" method="post">
-                            <button class="cart-button cart-button--primary" type="submit" name="vaciarcarrito">Finalizar compra</button>
+                            <button class="cart-button cart-button--primary" type="submit" name="vaciarcarrito">Vaciar carrito</button>
                         </form>
                         <a class="cart-button cart-button--secondary" href="categoria.php">Seguir comprando</a>
                     </aside>

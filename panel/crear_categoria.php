@@ -31,7 +31,7 @@ if((isset($_POST["guardar"]))&&($banderaerror==False)){
 <input type="text" name="nombre" value="<?=$nombre?>" class="form-control">
 </div>
 <button type="submit" value="guardar" name="guardar" class="btn btn-success">Guardar</button>
-<a href="categorias.html" class="btn btn-secondary">Cancelar</a>
+<a href="categorias.php" class="btn btn-secondary">Cancelar</a>
 </form>
 
 </main>

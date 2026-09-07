@@ -1,5 +1,5 @@
 <?php
-include_once("cabecera.php");
+include_once("inicio.php");
 
 if(isset($_GET["idcat"])){ //el id de categoria se nos ha pasado desde la cabecera en el desplegable si hemos elegido una categoria
     $idcat=$_GET["idcat"];
@@ -13,6 +13,9 @@ if(isset($_GET["idcat"])){ //el id de categoria se nos ha pasado desde la cabece
 }
 
 $nombreCategoria=htmlspecialchars(strtolower($nombreCategoria), ENT_QUOTES, "UTF-8");
+
+require_once("cabecera.php");
+
 ?>
        <!-- Header-->
         <header class="category-hero">

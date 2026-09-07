@@ -18,7 +18,7 @@ foreach($usuarios as $us){
   }
 ?>
   <tr>
-<td><?=$us["id_user"]?></td><td><?=$us["nombre"]?></td><td><?=$rol?></td>
+<td><?=$us["id_user"]?></td><td><?=$us["usuario"]?></td><td><?=$rol?></td>
 <td><a href="editar_usuario.php?idus=<?=$us["id_user"]?>"><button class="btn btn-sm btn-warning">Editar</button></a></td>
 </tr>
 <?php

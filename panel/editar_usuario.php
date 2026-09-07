@@ -35,7 +35,7 @@ if(isset($_POST["idus"])){
 if(isset($_GET["idus"])){
     $idus=$_GET["idus"];
     $usuario=$bbdd->mostrarus($idus);
-    $nombreus=$usuario["nombre"];
+    $nombreus=$usuario["usuario"];
     $rol=$usuario["rol"];
 }
 
@@ -57,7 +57,6 @@ if(isset($_POST["guardar"])&&$banderaerror==False){
         <select name="rolus" class="form-select">
         <option value="1"
         <?php
-        var_dump($rol);
         //Cuando el rol desplegable coincida con el usuario que se este editando lo seleccionara para que no se pierda
         if ($rol == 1) {
           echo 'selected';

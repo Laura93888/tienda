@@ -1,9 +1,5 @@
 <?php
-session_start();
-include_once("funciones.php");
-include_once("funcionesextra.php");
-
-$bbdd = new db("127.0.0.1",3306,"Tienda1","tienda","tienda123");
+require_once("inicio.php");
 
 //CATEGORIAS para hacer el desplegable de la cabecera
 $categorias=$bbdd->listarcat(); 
@@ -12,7 +8,8 @@ $categorias=$bbdd->listarcat();
 if(isset($_GET["cerrar"])){ //esto cuando pulse en el boton cerrar sesion me va a redirigir a esta pagina y tendrá este parámetro
     session_destroy();
     header("Location:index.php"); //Aqui me vuelvo a redirigir a esta misma pagina porque si no la cabecera se ha creado
-}
+    exit;
+    }
 
 //Siempre lo inicio vacio para que no de error
 $botonpanel="";
@@ -50,7 +47,7 @@ if(isset($_POST["eliminar"])){
 
     //si es con SESSION borro de la bbdd
     if(isset($_SESSION["id_user"])){
-        $bbdd->eliminarprocarrito($idcarrito); //elimino el carrito para lo que ncesito tanto el producto que es como el usuario al que pertenece (solo puede hacer 1 que lo cumpla)
+        $bbdd->eliminarprocarrito($idcarrito, $iduser); //elimino solo una línea del carrito del usuario autenticado
     
     //Si no hay sesion borro de la COOKIE
     }else{
@@ -196,7 +193,7 @@ if(isset($_SESSION["id_user"])){
                     <?php
 
                     //Uso usuario porque si tengo iniciada sesion tengo guardados los datos en $usuario, pero puedo usar session[id],
-                    if(!isset($usuario)){ //Si no tengo iniciada sesion muestro los botones de inicio de sesion que me redirigen a las páginas correspondientes
+                    if(!is_array($usuario ?? null)){ //Si no tengo iniciada sesion muestro los botones de inicio de sesion
 
                     ?>
                     <div class="site-navbar__actions">
@@ -213,7 +210,7 @@ if(isset($_SESSION["id_user"])){
                         //Muestro la opcion de cerrar sesion
                     ?>
                         <div class="site-navbar__user">
-                            <span>Hola, <strong><?=$usuario["nombre"]?></strong></span>
+                            <span>Hola, <strong><?=$usuario["usuario"]?></strong></span>
                             <a class="site-navbar__logout" href="index.php?cerrar=si">Cerrar sesion</a>
                         </div>
                     <?php
