@@ -164,8 +164,7 @@ if(isset($_SESSION["id_user"])){
         <nav class="navbar navbar-expand-lg navbar-light site-navbar">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand site-navbar__brand" href="index.php">
-                    <span class="site-navbar__brand-mark">+</span>
-                    Nuvia
+                    <img src="img/LOGOS/logo.png" alt="Nuvia">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
