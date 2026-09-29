@@ -3,12 +3,15 @@ session_start();
 include_once("funciones.php");
 include_once("funcionesextra.php");
 
+//Los datos de conexión están en config.php (ese archivo NO se sube a git)
+$config = require __DIR__ . "/config.php";
+
 $bbdd = new db(
-    "sql209.infinityfree.com",
-    3306,
-    "if0_42999121_Tienda1",
-    "if0_42999121",
-    "nuviainfinity"
+    $config["host"],
+    $config["port"],
+    $config["db"],
+    $config["user"],
+    $config["pass"]
 );
 
 ?>
