@@ -3,12 +3,12 @@ include_once("cabecera.php");
 
 ?>
 
-        <!-- Header-->
+        <!-- Cabecera principal-->
         <header class="home-hero">
             <div class="container px-4 px-lg-5">
                 <div class="home-hero__content">
                     <p class="home-hero__eyebrow">Tu selección, sin complicaciones</p>
-                    <h1>Todos tus favoritos,<br><em style="color: #e97959";>en un solo lugar.</em></h1>
+                    <h1>Todos tus favoritos,<br><em style="color: #e97959">en un solo lugar.</em></h1>
                     <p class="home-hero__text">Encuentra tu prenda adecuada para cada momento y recíbela en pocos clics.</p>
                 </div>
             </div>

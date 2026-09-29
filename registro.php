@@ -20,10 +20,22 @@ if(isset($_POST["usuario"])){
     }
 }
 
+
+//EMAIL
+$emailerror="";
+$email="";
+if(isset($_POST["email"])){
+    $email=htmlentities($_POST["email"]);
+    if($email==""){
+        $emailerror="El campo no puede estar vacio";
+        $banderaerror=True;
+    }
+}
+
 $contraseña="";
 $contraerror="";
 if(isset($_POST["contraseña"])){
-    $contraseña=htmlentities($_POST["contraseña"]);
+    $contraseña=($_POST["contraseña"]);
     if($contraseña==""){
         $contraerror="El campo no puede estar vacio";
         $banderaerror=True;
@@ -31,7 +43,7 @@ if(isset($_POST["contraseña"])){
 }
 
 if($banderaerror==False&&isset($_POST["enviar"])){
-    $bbdd->RegistrarUsuario($usuario,$contraseña);
+    $bbdd->RegistrarUsuario($usuario,$contraseña,$email);
     header("Location: login.php"); //Me voy al inicio de sesion cuadno me registro
 }
 require_once "cabecera.php";
@@ -55,6 +67,12 @@ require_once "cabecera.php";
                     <label for="usuario">Usuario</label>
                     <input type="text" id="usuario" name="usuario" placeholder="Escribe tu usuario" value="<?=$usuario?>">
                     <?php if($usuarioerror!=""){ ?><p class="account-form__error"><?=$usuarioerror?></p><?php } ?>
+                </div>
+
+                <div class="account-form__field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Escribe tu email" value="<?=$email?>">
+                    <?php if($emailerror!=""){ ?><p class="account-form__error"><?=$emailerror?></p><?php } ?>
                 </div>
 
                 <div class="account-form__field">

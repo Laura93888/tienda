@@ -1,6 +1,10 @@
 <?php
 require_once("inicio.php");
 
+//Estados que usa carrito.php para mostrar los modales
+$pedido_realizado=false;
+$necesita_login=false;
+
 //CATEGORIAS para hacer el desplegable de la cabecera
 $categorias=$bbdd->listarcat(); 
 
@@ -103,20 +107,62 @@ if((isset($_POST["anadirpro"]))){
 
 //Aqui tendriamos que tener en cuenta si hay stock de los productos y restarlo
 //Elimino todos los productos del carrito
-if(isset($_POST["vaciarcarrito"])){
+if(isset($_POST["terminarpedido"])){
 
     //si tenemos SESION iniciada llamo a la funcion de la bbdd
     if ((isset($_SESSION["id_user"]))){
         
-        $bbdd->vaciarcarrito($iduser);
+        $infopedido=[];
+
+        foreach($bbdd->infoCarritoSesion($iduser) as $valor){
+
+            $producto=$bbdd->obtenerproducto($valor["id_producto"]);
+
+            $infopedido[]=[
+                "id_producto" => $valor["id_producto"],
+                "nombre" => $producto["nombre"],
+                "cantidad" => $valor["cantidad"],
+                "precio" => $producto["Precio"],
+                "subtotal" => $valor["cantidad"] * $producto["Precio"]
+            ];
+        }
+
+        $totalpedido=0;
+
+        foreach($infopedido as $producto){
+            $totalpedido=$totalpedido+$producto["subtotal"];
+        }
+
+        $datosPedido=[
+            "usuario" => $usuario["usuario"],
+            "email" => $usuario["email"],
+            "productos" => $infopedido,
+            "total" => $totalpedido
+        ];
+        $url="https://laurabasurto.app.n8n.cloud/webhook-test/nuvia-pedido";
+
+        $ch=curl_init($url);
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json"
+        ]);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($datosPedido));
+
+        $respuesta=curl_exec($ch);
+
+        curl_close($ch);
+
+        //Vacío el carrito aquí (antes de contar productos más abajo) para que la cabecera salga actualizada
+        $bbdd->terminarpedido($iduser);
+        $pedido_realizado=true;
 
     //Si no vacio la COOKIe
     }else{
         
-        $carrito=[]; 
-
-        //GUARDO COOKIE al terminar de trabajar con ella
-        setcookie("carrito", json_encode($carrito), time() + 7*24*60*60, "/");
+        $necesita_login=true;
 
     }
 
@@ -149,14 +195,14 @@ if(isset($_SESSION["id_user"])){
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Pagina de inicio</title>
+        <meta name="description" content="Nuvia: tu selección de moda, sin complicaciones" />
+        <title>Nuvia | Tienda de moda</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
+        <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <!--  Estilos propios de la tienda-->
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body>
@@ -166,7 +212,7 @@ if(isset($_SESSION["id_user"])){
                 <a class="navbar-brand site-navbar__brand" href="index.php">
                     <img src="img/LOGOS/logo.png" alt="Nuvia">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Mostrar u ocultar el menú"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item dropdown">

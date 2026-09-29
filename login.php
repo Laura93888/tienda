@@ -37,7 +37,37 @@ if(isset($_POST["usuario"])){ //Si existe usuario es que hemos pulsado el boton 
                     $_SESSION["rol"]=$usuario["rol"]; 
 
                     $_SESSION["id_user"]=$iduser;  //Aquí es cuando INICIO LA SESION DEL USUARIO si todo ha sido correcto CON EL ID que he obtenido (me logeo), el valor de la sesion sera el id del usuario
-                    
+
+                                                                                                        // PASAR EL CARRITO DE LA COOKIE AL CARRITO DEL USUARIO
+                                                                                                        if(isset($_COOKIE["carrito"])){
+                                
+                                                                                                            $carritoCookie=json_decode($_COOKIE["carrito"], true);
+                                
+                                                                                                            if(is_array($carritoCookie)){
+                                
+                                                                                                                foreach($carritoCookie as $producto){
+                                
+                                                                                                                    $idpro=$producto["id_producto"];
+                                                                                                                    $cant=$producto["cantidad"];
+                                
+                                                                                                                    // Compruebo si este producto ya estaba en el carrito del usuario
+                                                                                                                    if($bbdd->comprobarsiesta($iduser,$idpro)){
+                                
+                                                                                                                        // Si ya estaba, sumo la cantidad
+                                                                                                                        $bbdd->sumarcantidad($cant,$iduser,$idpro);
+                                
+                                                                                                                    }else{
+                                
+                                                                                                                        // Si no estaba, lo añado
+                                                                                                                        $bbdd->crearcarrito($iduser,$idpro,$cant);
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                
+                                                                                                            // Después de pasar los productos, elimino la cookie
+                                                                                                            setcookie("carrito", "", time() - 3600, "/");
+                                                                                                        }
+                                                    
                     $bbdd->resetearIntentos($nombreusuario); //Reseteo los intentos ya que ha conseguido entrar y la proxima vez debe empezar intentos de 0
                     
                     header("Location: index.php"); //mando a la cabecera cuando inicie sesion

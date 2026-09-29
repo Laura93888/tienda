@@ -142,14 +142,15 @@ public function usuarioexiste($nombre){
 }
 
 //añadir usuario a la bbdd(desde registro)
-public function RegistrarUsuario($nombre,$contraseña){
+public function RegistrarUsuario($nombre,$contraseña,$email){
     $contracifrada=password_hash($contraseña, PASSWORD_DEFAULT);
 
-    $sentencia="INSERT INTO Usuarios (usuario, contrasea) VALUES (:usuario, :hash)";
+    $sentencia="INSERT INTO Usuarios (usuario, email, contrasea) VALUES (:usuario, :email, :hash)";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
         ":usuario" => $nombre,
-        ":hash" => $contracifrada
+        ":hash" => $contracifrada,
+        ":email" => $email
     ]);
 
 }
@@ -365,14 +366,14 @@ public function eliminarprocarrito($id_carrito, $iduser){
 }
 
 //quita todos los productos del carrito de un usuario(borra todas las ocurrencias de la tabla carrito donde el id de usuario sea el que ha iniciado sesion)
-public function vaciarcarrito($iduser){
+public function terminarpedido($iduser){
 
     $sentencia="DELETE FROM carrito WHERE id_usuario = :id_usuario";
     $ejecuccion=$this->pdo->prepare($sentencia);
     $ejecuccion->execute([
         ":id_usuario" => $iduser,
     ]);
-
+    return true;
 }
 
 

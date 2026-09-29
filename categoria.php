@@ -17,7 +17,7 @@ $nombreCategoria=htmlspecialchars(strtolower($nombreCategoria), ENT_QUOTES, "UTF
 require_once("cabecera.php");
 
 ?>
-       <!-- Header-->
+       <!-- Cabecera de la categoría-->
         <header class="category-hero">
     <div class="container px-4 px-lg-5">
         <div class="category-hero__content">
