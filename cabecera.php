@@ -199,7 +199,7 @@ if(isset($_SESSION["id_user"])){
         <title>Nuvia | Tienda de moda</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap -->
+        <!-- Bootstrap-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
         <!--  Estilos propios de la tienda-->
