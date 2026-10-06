@@ -30,9 +30,9 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: 'Courier New', Courier, monospace;
 }
-
+/* ---------- Cabecera ---------- */
 .navbar {
-  padding: 1.05rem 0;
+  padding: 0.7rem 0;
   background: var(--store-ink) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
@@ -46,63 +46,50 @@ h1, h2, h3, h4, h5, h6,
 .site-navbar__brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
   color: #fff !important;
-  font-family: Georgia, serif;
-  font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: -0.06em;
 }
 
 .site-navbar__brand img {
-    height: 40px;
-    width: auto;
-}
-
-.site-navbar__brand-mark {
-  display: inline-grid;
-  width: 1.6rem;
-  height: 1.6rem;
-  place-items: center;
-  color: #fff;
-  background: var(--store-coral);
-  border-radius: 50%;
-  font-family: var(--bs-body-font-family);
-  font-size: 1.2rem;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
-.navbar-brand {
-  color: #fff !important;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.navbar .nav-link {
-  color: var(--store-cream) !important;
-  font-weight: 600;
-}
-
-.navbar .nav-link:hover,
-.navbar .nav-link.active {
-  color: #fff !important;
+  height: 54px;
+  width: auto;
 }
 
 .site-navbar .navbar-nav {
   gap: 0.45rem;
 }
 
+/* Categorías: más presencia */
 .site-navbar .nav-link {
+  position: relative;
   padding: 0.55rem 0.75rem !important;
   color: var(--store-cream) !important;
-  border-radius: 0.25rem;
-  transition: color 180ms ease, background 180ms ease;
+  font-size: 1.05rem;
+  font-weight: 700;
+  transition: color 180ms ease;
 }
 
 .site-navbar .nav-link:hover,
 .site-navbar .nav-link.active {
-  background: rgba(224, 122, 63, 0.22);
+  color: #fff !important;
+}
+
+/* Subrayado naranja (no en el desplegable, porque Bootstrap usa su ::after para la flechita) */
+.site-navbar .nav-link:not(.dropdown-toggle)::after {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.2rem;
+  height: 2px;
+  background: var(--store-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+
+.site-navbar .nav-link:not(.dropdown-toggle):hover::after,
+.site-navbar .nav-link.active::after {
+  transform: scaleX(1);
 }
 
 .site-navbar .navbar-toggler {
@@ -187,31 +174,37 @@ h1, h2, h3, h4, h5, h6,
   text-decoration: none;
 }
 
+/* Registrarse: secundario, solo contorno */
 .site-navbar__account-button {
-  color: var(--store-ink);
-  background: var(--store-orange);
+  color: var(--store-cream);
+  background: transparent;
+  border: 1px solid rgba(246, 240, 230, 0.45);
+  transition: color 180ms ease, border-color 180ms ease;
 }
 
 .site-navbar__account-button:hover {
-  color: var(--store-ink);
-  background: var(--store-orange);
+  color: var(--store-orange);
+  border-color: var(--store-orange);
 }
 
+/* Carrito: el naranja relleno */
 .site-navbar__cart {
   gap: 0.45rem;
   margin-left: 1rem;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.48);
+  color: var(--store-ink);
+  background: var(--store-orange);
+  border: 1px solid var(--store-orange);
+  transition: background 180ms ease, border-color 180ms ease;
 }
 
 .site-navbar__cart:hover {
-  color: #fff;
-  border-color: var(--store-orange);
-  background: rgba(224, 122, 63, 0.18);
+  color: var(--store-ink);
+  background: #ea8a52;
+  border-color: #ea8a52;
 }
 
 .site-navbar__cart > i {
-  color: var(--store-orange);
+  color: var(--store-ink);
 }
 
 .site-navbar__cart-count {
@@ -221,7 +214,7 @@ h1, h2, h3, h4, h5, h6,
   padding: 0 0.25rem;
   place-items: center;
   color: #fff;
-  background: var(--store-blue);
+  background: var(--store-ink);
   border-radius: 50%;
   font-size: 0.72rem;
 }
@@ -1041,35 +1034,23 @@ h1, h2, h3, h4, h5, h6,
   font-size: 0.82rem;
   font-weight: 800;
 }
-
 .home-hero {
   position: relative;
   overflow: hidden;
+  min-height: 58vh;
   display: flex;
   align-items: center;
   background: var(--store-teal);
-  isolation: isolate;
-}
-
-.home-hero::after {
-  content: "";
-  position: absolute;
-  width: 460px;
-  height: 460px;
-  right: 8%;
-  top: -170px;
-  border: 1px solid rgba(32, 43, 43, 0.18);
-  border-radius: 50%;
-  box-shadow: 0 0 0 38px rgba(255, 255, 255, 0.12), 0 0 0 76px rgba(255, 255, 255, 0.08);
-  z-index: -1;
 }
 
 .home-hero .container {
   position: relative;
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  align-items: center;
+  gap: 3rem;
   width: 100%;
   padding-top: 3rem;
-  padding-bottom: 3rem;
 }
 
 .home-hero__content {
@@ -1106,6 +1087,23 @@ h1, h2, h3, h4, h5, h6,
   margin-bottom: 1.8rem;
   color: var(--store-ink);
   font-size: 1.1rem;
+}
+
+.home-hero__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -100px;
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero__image img {
+  display: block;
+  width: 120%;
+  max-width: none;
+  height: auto;
+  object-fit: contain;
 }
 
 .home-hero__action {
